@@ -31,7 +31,7 @@ AGPLv3+
 
 DATA_DIR=${data_dir:-"/var/lib/bitcoin"}
 BLOCK_DIR="${DATA_DIR}/blocks"
-
+CONF_PATH=${conf_path:-"/etc/bitcoin.conf"}
 if [ "$1" = "autoconf" ]; then
     autoconf="yes"
 

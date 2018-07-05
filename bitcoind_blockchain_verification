@@ -32,7 +32,7 @@ AGPLv3+
 
 BINARY=${binary:-"/usr/bin/bitcoin-cli"}
 DATA_DIR=${data_dir:-"/var/lib/bitcoin"}
-
+CONF_PATH=${conf_path:-"/etc/bitcoin.conf"}
 if [ "$1" = "autoconf" ]; then
     autoconf="yes"
 
@@ -52,5 +52,5 @@ if [ "$1" = "config" ]; then
     exit 0
 fi
 
-echo "bitcoind_blockchain_verification.value $($BINARY -datadir=$DATA_DIR getblockchaininfo | grep verificationprogress | grep -o '[0-9.]*')"
+echo "bitcoind_blockchain_verification.value $($BINARY -conf=$CONF_PATH -datadir=$DATA_DIR getblockchaininfo | grep verificationprogress | grep -o '[0-9.]*')"
 

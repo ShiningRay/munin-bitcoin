@@ -38,7 +38,7 @@ esac
 
 BINARY=${binary:-"/usr/bin/bitcoin-cli"}
 DATA_DIR=${data_dir:-"/var/lib/bitcoin"}
-
+CONF_PATH=${conf_path:-"/etc/bitcoin.conf"}
 if [ "$1" = "autoconf" ]; then
     autoconf="yes"
 
@@ -56,7 +56,7 @@ if [ "$1" = "config" ]; then
     exit 0
 fi
 
-mempool="$($BINARY -datadir=$DATA_DIR getmempoolinfo)"
+mempool="$($BINARY -conf=$CONF_PATH -datadir=$DATA_DIR getmempoolinfo)"
 value=$(echo "$mempool" | grep $METRIC | grep -o '[0-9]*')
 
 echo "${METRIC}.value $(echo $value)"

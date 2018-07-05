@@ -32,7 +32,7 @@ AGPLv3+
 
 BINARY=${binary:-"/usr/bin/bitcoin-cli"}
 DATA_DIR=${data_dir:-"/var/lib/bitcoin"}
-
+CONF_PATH=${conf_path:-"/etc/bitcoin.conf"}
 if [ "$1" = "autoconf" ]; then
     autoconf="yes"
 
@@ -42,7 +42,7 @@ if [ "$1" = "autoconf" ]; then
     exit 0
 fi
 
-peers=$($BINARY -datadir=$DATA_DIR getpeerinfo | grep addrlocal | awk -F '"' '{print $4}' | grep ':8333$' | sort | uniq -c | sed 's/:8333$//' | awk '{print $2 " " $1}')
+peers=$($BINARY -conf=$CONF_PATH -datadir=$DATA_DIR getpeerinfo | grep addrlocal | awk -F '"' '{print $4}' | grep ':8333$' | sort | uniq -c | sed 's/:8333$//' | awk '{print $2 " " $1}')
 
 if [ "$1" = "config" ]; then
     echo 'graph_title Connection count'
@@ -59,8 +59,8 @@ if [ "$1" = "config" ]; then
     exit 0
 fi
 
-echo "total.value $($BINARY -datadir=$DATA_DIR getconnectioncount)"
-echo "outbound.value $($BINARY -datadir=$DATA_DIR getpeerinfo | grep -c '"inbound": false')"
+echo "total.value $($BINARY -conf=$CONF_PATH -datadir=$DATA_DIR getconnectioncount)"
+echo "outbound.value $($BINARY -conf=$CONF_PATH -datadir=$DATA_DIR getpeerinfo | grep -c '"inbound": false')"
 
 odd=0
 for address_or_count in $peers; do

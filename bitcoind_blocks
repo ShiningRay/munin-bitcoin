@@ -13,6 +13,7 @@ bitcoind_blocks - Plugin to monitor the number of blocks
  [bitcoind*]
     user bitcoin
     env.binary bitcoin-cli
+    env.conf_path /etc/bitcoin.conf
     env.data_dir /var/lib/bitcoin
 
 =head1 AUTHOR
@@ -32,7 +33,7 @@ AGPLv3+
 
 BINARY=${binary:-"/usr/bin/bitcoin-cli"}
 DATA_DIR=${data_dir:-"/var/lib/bitcoin"}
-
+CONF_PATH=${conf_path:-"/etc/bitcoin.conf"}
 if [ "$1" = "autoconf" ]; then
     autoconf="yes"
 
@@ -52,5 +53,5 @@ if [ "$1" = "config" ]; then
     exit 0
 fi
 
-echo "bitcoind_blocks.value $($BINARY -datadir=$DATA_DIR getblockcount)"
+echo "bitcoind_blocks.value $($BINARY -conf=$CONF_PATH -datadir=$DATA_DIR getblockcount)"
 
